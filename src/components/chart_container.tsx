@@ -170,19 +170,19 @@ class ChartContainerComponent extends React.Component<ReactiveChartProps> {
 
   render() {
     const { initialized, isChartEmpty } = this.props;
-    if (
-      initialized === InitStatus.ParentSizeInvalid ||
-      initialized === InitStatus.SpecNotInitialized ||
-      initialized === InitStatus.ChartNotInitialized
-    ) {
-      return null;
-    }
     if (initialized === InitStatus.MissingChartType || isChartEmpty === true) {
       return (
         <div className="echReactiveChart_unavailable">
           <p>No data to display</p>
         </div>
       );
+    }
+    if (
+      initialized === InitStatus.ParentSizeInvalid ||
+      initialized === InitStatus.SpecNotInitialized ||
+      initialized === InitStatus.ChartNotInitialized
+    ) {
+      return null;
     }
     const { pointerCursor, internalChartRenderer, getChartContainerRef, forwardStageRef } = this.props;
     return (
@@ -218,7 +218,7 @@ const mapStateToProps = (state: GlobalChartState): ChartContainerComponentStateP
   if (status !== InitStatus.Initialized) {
     return {
       initialized: status,
-      isChartEmpty: undefined,
+      isChartEmpty: status === InitStatus.SpecNotInitialized ? true : undefined,
       pointerCursor: 'default',
       isBrushingAvailable: false,
       isBrushing: false,
