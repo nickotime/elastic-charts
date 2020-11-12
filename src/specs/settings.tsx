@@ -30,7 +30,7 @@ import { CustomTooltip } from '../components/tooltip/types';
 import { ScaleContinuousType, ScaleOrdinalType } from '../scales';
 import { getConnect, specComponentFactory } from '../state/spec_factory';
 import { Accessor } from '../utils/accessor';
-import { Color, Position, RecursivePartial, Rendering, Rotation } from '../utils/commons';
+import { Color, Position, Rendering, Rotation } from '../utils/commons';
 import { Domain } from '../utils/domain';
 import { GeometryValue } from '../utils/geometry';
 import { GroupId } from '../utils/ids';
@@ -416,11 +416,7 @@ export type DefaultSettingsProps =
   | 'minBrushDelta'
   | 'externalPointerEvents';
 
-export type SettingsSpecProps = Partial<
-  Omit<SettingsSpec, 'chartType' | 'specType' | 'id' | 'externalPointerEvents'>
-> & {
-  externalPointerEvents?: RecursivePartial<SettingsSpec['externalPointerEvents']>;
-};
+export type SettingsSpecProps = Partial<Omit<SettingsSpec, 'chartType' | 'specType' | 'id'>>;
 
 export const Settings: React.FunctionComponent<SettingsSpecProps> = getConnect()(
   specComponentFactory<SettingsSpec, DefaultSettingsProps>(DEFAULT_SETTINGS_SPEC),
