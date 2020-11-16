@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import React, { ComponentType } from 'react';
+import React, { ComponentType, ReactChild } from 'react';
 
 import { Spec } from '.';
 import { Cell } from '../chart_types/heatmap/layout/types/viewmodel_types';
@@ -386,6 +386,14 @@ export interface SettingsSpec extends Spec {
    * Orders ordinal x values
    */
   orderOrdinalBinsBy?: OrderBy;
+  /**
+   * Render component for no results UI
+   */
+  noResults?: ComponentType | ReactChild;
+  /**
+   * Loading component
+   */
+  loading?: ComponentType | ReactChild;
 }
 
 /**

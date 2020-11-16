@@ -17,14 +17,21 @@
  * under the License.
  */
 
-import { SB_SOURCE_PANEL } from '../utils/storybook';
+import React, { ComponentType, ReactNode } from 'react';
 
-export default {
-  title: 'Test Cases',
-  parameters: {
-    options: { selectedPanel: SB_SOURCE_PANEL },
-  },
-};
+/**
+ * Renders ComponentType or ReactNode
+ */
+export function renderComponent(Component: ComponentType | ReactNode) {
+  if (
+    typeof Component === 'string' ||
+    typeof Component === 'number' ||
+    typeof Component === 'boolean' ||
+    Component === null ||
+    Component === undefined
+  ) {
+    return Component;
+  }
 
-export { Example as noSeries } from './1_no_series';
-export { Example as loading } from './2_loading';
+  return Component;
+}

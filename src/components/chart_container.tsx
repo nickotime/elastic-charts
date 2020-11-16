@@ -39,7 +39,8 @@ import { isInternalChartEmptySelector } from '../state/selectors/is_chart_empty'
 import { deepEqual } from '../utils/fast_deep_equal';
 
 interface ChartContainerComponentStateProps {
-  initialized: InitStatus;
+  status: InitStatus;
+  loading: boolean;
   isChartEmpty?: boolean;
   pointerCursor: string;
   isBrushing: boolean;
@@ -69,9 +70,12 @@ type ReactiveChartProps = ChartContainerComponentStateProps &
 class ChartContainerComponent extends React.Component<ReactiveChartProps> {
   static displayName = 'ChartContainer';
 
-  shouldComponentUpdate(nextProps: ReactiveChartProps) {
-    return !deepEqual(this.props, nextProps);
-  }
+  // shouldComponentUpdate(nextProps: ReactiveChartProps) {
+  //   return true;
+  //   console.log('shouldComponentUpdate', this.props.loading, nextProps.loading);
+
+  //   return !deepEqual(this.props, nextProps) && this.props.loading !== nextProps.loading;
+  // }
 
   handleMouseMove = ({
     nativeEvent: { offsetX, offsetY, timeStamp },
@@ -169,21 +173,25 @@ class ChartContainerComponent extends React.Component<ReactiveChartProps> {
   };
 
   render() {
-    const { initialized, isChartEmpty } = this.props;
-    if (initialized === InitStatus.MissingChartType || isChartEmpty === true) {
-      return (
-        <div className="echReactiveChart_unavailable">
-          <p>No data to display</p>
-        </div>
-      );
+    const { status, isChartEmpty, settings } = this.props;
+    console.log('render', status);
+
+    if (status === InitStatus.SpecNotInitialized) {
+      return settings?.loading ?? null;
     }
+
+    if (status === InitStatus.MissingChartType || isChartEmpty === true) {
+      return <div className="echReactiveChart_unavailable">{settings?.noResults ?? <p>No data to display</p>}</div>;
+    }
+
     if (
-      initialized === InitStatus.ParentSizeInvalid ||
-      initialized === InitStatus.SpecNotInitialized ||
-      initialized === InitStatus.ChartNotInitialized
+      status === InitStatus.ParentSizeInvalid ||
+      status === InitStatus.SpecNotInitialized ||
+      status === InitStatus.ChartNotInitialized
     ) {
       return null;
     }
+
     const { pointerCursor, internalChartRenderer, getChartContainerRef, forwardStageRef } = this.props;
     return (
       <div
@@ -215,19 +223,23 @@ const mapDispatchToProps = (dispatch: Dispatch): ChartContainerComponentDispatch
 const mapStateToProps = (state: GlobalChartState): ChartContainerComponentStateProps => {
   const status = getInternalIsInitializedSelector(state);
 
+  console.log('mapStateToProps', status, status !== InitStatus.Initialized);
+
   if (status !== InitStatus.Initialized) {
     return {
-      initialized: status,
-      isChartEmpty: status === InitStatus.SpecNotInitialized ? true : undefined,
+      status,
+      loading: status !== InitStatus.SpecNotInitialized,
       pointerCursor: 'default',
       isBrushingAvailable: false,
       isBrushing: false,
       internalChartRenderer: () => null,
+      settings: getSettingsSpecSelector(state),
     };
   }
 
   return {
-    initialized: status,
+    status,
+    loading: status !== InitStatus.SpecNotInitialized,
     isChartEmpty: isInternalChartEmptySelector(state),
     pointerCursor: getInternalPointerCursor(state),
     isBrushingAvailable: getInternalIsBrushingAvailableSelector(state),

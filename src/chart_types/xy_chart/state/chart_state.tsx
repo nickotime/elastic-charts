@@ -74,7 +74,7 @@ export class XYAxisChartState implements InternalChartState {
   }
 
   isInitialized(globalState: GlobalChartState) {
-    return getSeriesSpecsSelector(globalState).length > 0 ? InitStatus.Initialized : InitStatus.SpecNotInitialized;
+    return globalState.specParsing ? InitStatus.SpecNotInitialized : InitStatus.Initialized;
   }
 
   isBrushAvailable(globalState: GlobalChartState) {
