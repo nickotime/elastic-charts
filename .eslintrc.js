@@ -423,6 +423,7 @@ module.exports = {
     {
       files: ['*.test.ts?(x)'],
       rules: {
+        'elastic-charts/no-different-release-tag': 0,
         'elastic-charts/require-release-tag': 0,
         'elastic-charts/require-tsdocs': 0,
         'elastic-charts/require-documentation': 0,
