@@ -52,7 +52,7 @@ module.exports = {
 
     return {
       // eslint-disable-next-line func-names
-      'ExportNamedDeclaration[specifiers=""]:not(ExportAllDeclaration)': function (node) {
+      'ExportNamedDeclaration[source=""]': function (node) {
         if (!initialized) {
           initialized = true;
           const { variables } = context.getScope();

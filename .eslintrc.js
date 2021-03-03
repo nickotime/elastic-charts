@@ -327,6 +327,8 @@ module.exports = {
         'elastic-charts/no-different-release-tag': 2,
         'elastic-charts/require-release-tag': 2,
         'elastic-charts/require-tsdocs': 2,
+        'elastic-charts/require-index-file': 2,
+        'elastic-charts/require-index-exports': 2,
         'elastic-charts/require-documentation': 1,
 
         /*

@@ -43,7 +43,7 @@ module.exports = {
   create(context) {
     return {
       // eslint-disable-next-line func-names
-      'ExportNamedDeclaration[specifiers=""]:not(ExportAllDeclaration)': function (node) {
+      'ExportNamedDeclaration[source=""]': function (node) {
         const variableName = utils.getExportName(node);
         const comment = utils.getCommentBefore(context, node);
 

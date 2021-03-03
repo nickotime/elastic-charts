@@ -55,8 +55,9 @@
     "watch": "yarn test --watch",
     "index:check": "ts-node scripts/index_check.ts",
     "tsdocs:check": "ts-node scripts/tsdoc_check.ts",
-    "lint:test": "node --inspect ./node_modules/eslint/bin/eslint src/utils/geometry.ts",
-    "lint:check": "eslint src/utils/geometry.ts"
+    "lint:test": "node --inspect ./node_modules/eslint/bin/eslint src/geoms/index.ts",
+    "lint:test2": "node --inspect ./node_modules/eslint/bin/eslint --ext .tsx,.ts,.js src/geoms",
+    "lint:check": "eslint --ext .tsx,.ts,.js src/geoms"
   },
   "dependencies": {
     "@popperjs/core": "^2.4.0",

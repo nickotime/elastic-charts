@@ -2,5 +2,9 @@
   "name": "eslint-plugin-elastic-charts",
   "description": "Custom elastic-charts lint plugin",
   "version": "1.0.0",
-  "main": "index.js"
+  "main": "index.js",
+  "devDependencies": {
+    "glob": "^7.1.6",
+    "minimatch": "^3.0.4"
+  }
 }

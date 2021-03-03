@@ -17,13 +17,4 @@
  * under the License.
  */
 
-module.exports = {
-  rules: {
-    'require-tsdocs': require('./rules/require_tsdocs'),
-    'require-release-tag': require('./rules/require_release_tag'),
-    'require-documentation': require('./rules/require_documentation'),
-    'no-different-release-tag': require('./rules/no_different_release_tag'),
-    'require-index-file': require('./rules/require_index_file'),
-    'require-index-exports': require('./rules/require_index_exports'),
-  },
-};
+export * from './test';
