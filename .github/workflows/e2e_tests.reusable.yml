@@ -254,7 +254,7 @@ jobs:
         run: echo "${{ steps.playwright.outputs.version }}"
 
   e2e:
-    name: 'Test / ${{ matrix.test-file }} / ${{ matrix.browser }}'
+    name: '${{ matrix.browser }} / ${{ matrix.test-file }}'
     runs-on: ubuntu-latest
     needs: e2e-setup
     strategy:
@@ -276,7 +276,7 @@ jobs:
         working-directory: e2e
       - name: Test run
         working-directory: e2e
-        run: yarn test --project=${{ matrix.browser }} ./tests/${{ matrix.test-file }}
+        run: yarn test --forbid-only --project=${{ matrix.browser }} ./tests/${{ matrix.test-file }}
 
   e2e-status-success:
     name: set success Status
