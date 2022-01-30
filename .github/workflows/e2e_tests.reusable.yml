@@ -250,11 +250,6 @@ jobs:
       matrix:
         test-file: ${{ fromJSON(needs.e2e-setup.outputs.test-files) }}
         browser: ['Chrome']
-        include:
-        # includes a new variable of npm with a value of 6
-        # for the matrix leg matching the os and version
-        - browser: Chrome
-          test-patterns: [1, 2]
         # browser: ['chrome', 'Safari', 'Firefox']
     container:
       image: mcr.microsoft.com/playwright:v${{ needs.e2e-setup.outputs.playwright-version }}-focal
