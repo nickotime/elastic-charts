@@ -122,7 +122,7 @@ jobs:
     name: e2e Tests
     uses: elastic/elastic-charts/.github/workflows/e2e_tests.reusable.yml@master
     if: ${{ success() }}
-    needs: build-deploy
+    needs: [build-deploy, cleanup]
     with:
       status_context: Playwright e2e
       sha: ${{ github.event.client_payload.sha }}
