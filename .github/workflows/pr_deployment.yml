@@ -216,7 +216,6 @@ jobs:
       current_run_url: "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
       environment: "${{ github.event.client_payload.environment }}"
       environment_url: "${{ needs.build-deploy.outputs.environment_url }}"
-      deployment_id: ${{ github.event.client_payload.deployment_id }}
 
 #########################################################################################################
 

@@ -34,10 +34,6 @@ on:
         required: true
         type: string
         description: Current deployment environment.
-      deployment_id:
-        required: false
-        type: string
-        description: Current deployment id. If none will use latest deployment.
 
 jobs:
   deployment-status:
@@ -81,11 +77,8 @@ jobs:
       with:
         result-encoding: string
         script: | # This is javascript :)
-          const deployIdStr = '${{ inputs.deployment_id }}';
-          const deployments = ${{ toJSON(fromJSON(steps.deployments.outputs.data).repository.deployments.nodes) }}
-          const deployment = deployIdStr === '' ? deployments[0] : deployments.find(({ databaseId: id }) => {
-            return id === Number(deployIdStr);
-          });
+          // Pick latest deployment, should always be the correct one
+          const [deployment] = ${{ toJSON(fromJSON(steps.deployments.outputs.data).repository.deployments.nodes) }};
 
           console.log(deployment)
 

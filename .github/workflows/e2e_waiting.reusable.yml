@@ -29,10 +29,6 @@ on:
         type: string
         default: Playwright e2e
         description: Context used to set commit status.
-      deployment_id:
-        required: false
-        type: string
-        description: Current deployment id. If none will use latest deployment.
 
 jobs:
   deployment-status:
@@ -79,11 +75,8 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: | # This is javascript :)
-          const deployIdStr = '${{ inputs.deployment_id }}';
-          const deployments = ${{ toJSON(fromJSON(steps.deployments.outputs.data).repository.deployments.nodes) }}
-          const deployment = deployIdStr === '' ? deployments[0] : deployments.find(({ databaseId: id }) => {
-            return id === Number(deployIdStr);
-          });
+          const [deployment] = ${{ toJSON(fromJSON(steps.deployments.outputs.data).repository.deployments.nodes) }};
+
           console.log(deployment);
 
           return deployment && deployment.state === 'WAITING';
