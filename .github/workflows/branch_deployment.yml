@@ -121,6 +121,7 @@ jobs:
   e2e-tests:
     name: e2e Tests
     uses: elastic/elastic-charts/.github/workflows/e2e_tests.reusable.yml@master
+    if: ${{ success() }}
     needs: build-deploy
     with:
       status_context: Playwright e2e
