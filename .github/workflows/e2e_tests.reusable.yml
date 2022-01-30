@@ -87,6 +87,8 @@ jobs:
             return id === Number(deployIdStr);
           });
 
+          console.log(deployment)
+
           if (deployment) {
             const { state, latestStatus } = deployment;
             if (state === 'ACTIVE' && latestStatus.state === 'SUCCESS') return 'success'
@@ -95,9 +97,15 @@ jobs:
           }
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Printdeployment status
+      if: ${{ always() }}
+      shell: python
+      run: |
+        print("""${{ steps.deployment-status.outputs.result }}""")
+
 #########################################################################################################
 
-    - name: Handle no found deployment
+    - name: Handle no deployment
       if: ${{ !steps.deployment-status.outputs.result }}
       uses: octokit/request-action@v2.x
       with:
@@ -122,20 +130,6 @@ jobs:
         context: ${{ inputs.status_context }}
         state: 'pending'
         description: 'Deployment successful, starting tests'
-        target_url: ${{ inputs.current_run_url }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Handle deployment error or failure
-      if: ${{ steps.deployment-status.outputs.result == 'error' || steps.deployment-status.outputs.result == 'failure' }}
-      uses: octokit/request-action@v2.x
-      with:
-        # https://docs.github.com/en/rest/reference/commits#create-a-commit-status
-        route: POST /repos/{repo}/statuses/{sha}
-        repo: ${{ github.repository }}
-        sha: ${{ inputs.sha }}
-        context: ${{ inputs.status_context }}
-        state: ${{ steps.deployment-status.outputs.result }}
-        description: "Deployment ${{ steps.deployment-status.outputs.result }}, testing aborted."
         target_url: ${{ inputs.current_run_url }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
