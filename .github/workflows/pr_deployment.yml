@@ -32,7 +32,6 @@ jobs:
       sha: ${{ github.event.client_payload.head_sha }}
       current_run_url: "${{ github.event.repository.html_url }}/actions/runs/${{ github.run_id }}"
       environment: "${{ github.event.client_payload.environment }}"
-      deployment_id: "${{ github.event.client_payload.deployment_id }}"
 
 #########################################################################################################
 
