@@ -43,7 +43,8 @@ jobs:
       deployment_id: ${{ github.event.client_payload.deployment_id }}
       pr_number: ${{ github.event.client_payload.pr_number }}
     outputs:
-      environment_url: ${{ steps.deploy.outputs.details_url }}
+      # environment_url: ${{ steps.deploy.outputs.details_url }}
+      environment_url: https://ech-e2e-ci--pr-1572-p2bcha8q.web.app
       log_url: "${{ steps.run_info.outputs.result }}"
     steps:
       - name: Update Deployment status - in progress
