@@ -27,11 +27,11 @@ on:
   pull_request_target:
     branches:
       - master
-      # - alpha
-      # - next
-      # - '[0-9]+.[0-9]+.[0-9]+'
-      # - '[0-9]+.[0-9]+.x'
-      # - '[0-9]+.x'
+      - alpha
+      - next
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.x'
+      - '[0-9]+.x'
 
 jobs:
   trigger-deploy:
