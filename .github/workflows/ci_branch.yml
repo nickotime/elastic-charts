@@ -11,7 +11,7 @@ concurrency:
 on:
   push:
     branches:
-      # - master
+      - master
       - alpha
       - next
       - '[0-9]+.[0-9]+.[0-9]+'
@@ -19,16 +19,32 @@ on:
       - '[0-9]+.x'
 
 jobs:
-  checks-workflow:
+  checks-workflow: # runs all common workflow check
     name: Checks
-    # uses: elastic/elastic-charts/.github/workflows/checks.reusable.yml@master # TODO this
+    uses: elastic/elastic-charts/.github/workflows/checks.reusable.yml@master
+
+  should-trigger:
+    name: Check for e2e/package.json
     runs-on: ubuntu-latest
+    outputs:
+      check: ${{ steps.check-e2e-package.outputs.files_exists }}
     steps:
-      - run: echo "Placeholder"
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Check is e2e setup ready
+        id: check-e2e-package
+        uses: andstor/file-existence-action@v1
+        with:
+          files: e2e/package.json
+
+      - name: File exists
+        if: steps.check-e2e-package.outputs.files_exists == 'true'
+        run: echo All files exists!
 
   trigger-deploy:
     name: Trigger deployment
     runs-on: ubuntu-latest
+    if: ${{ needs.should-trigger.outputs.check == 'true' }}
     steps:
     - name: Get deployment environment
       uses: actions/github-script@v5

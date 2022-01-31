@@ -34,9 +34,29 @@ on:
       - '[0-9]+.x'
 
 jobs:
+  should-trigger:
+    name: Check for e2e/package.json
+    runs-on: ubuntu-latest
+    outputs:
+      check: ${{ steps.check-e2e-package.outputs.files_exists }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Check is e2e setup ready
+        id: check-e2e-package
+        uses: andstor/file-existence-action@v1
+        with:
+          files: e2e/package.json
+
+      - name: File exists
+        if: steps.check-e2e-package.outputs.files_exists == 'true'
+        run: echo All files exists!
+
   trigger-deploy:
     name: Trigger deployment
     runs-on: ubuntu-latest
+    needs: should-trigger
+    if: ${{ needs.should-trigger.outputs.check == 'true' }}
     env:
       ENVIRONMENT_NAME: "PR #${{ github.event.pull_request.number }}"
     steps:
