@@ -37,10 +37,6 @@ jobs:
         with:
           files: e2e/package.json
 
-      - name: File exists
-        if: steps.check-e2e-package.outputs.files_exists == 'true'
-        run: echo All files exists!
-
   trigger-deploy:
     name: Trigger deployment
     runs-on: ubuntu-latest
@@ -100,7 +96,7 @@ jobs:
     name: Print context on failure
     # if: ${{ failure() }} # TODO this
     if: ${{ always() }}
-    needs: [checks-workflow, trigger-deploy]
+    needs: [checks-workflow, should-trigger, trigger-deploy]
     runs-on: ubuntu-latest
     steps:
       - name: Print github context
