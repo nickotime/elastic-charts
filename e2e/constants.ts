@@ -48,13 +48,13 @@ export const PartitionLayout = Object.freeze({
 });
 export type PartitionLayout = $Values<typeof PartitionLayout>;
 
-export const Position = Object.freeze({
-  Top: 'top' as const,
-  Bottom: 'bottom' as const,
-  Left: 'left' as const,
-  Right: 'right' as const,
-});
-export type Position = $Values<typeof Position>;
+// export const Position = Object.freeze({
+//   Top: 'top' as const,
+//   Bottom: 'bottom' as const,
+//   Left: 'left' as const,
+//   Right: 'right' as const,
+// });
+// export type Position = $Values<typeof Position>;
 
 export const SeriesType = Object.freeze({
   Area: 'area' as const,

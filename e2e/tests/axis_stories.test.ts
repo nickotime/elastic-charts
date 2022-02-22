@@ -8,7 +8,7 @@
 
 import { test } from '@playwright/test';
 
-import { Position } from '../constants';
+import { Position } from '../../packages/charts/src/utils/common';
 import { eachRotation, eachTheme, pwEach } from '../helpers';
 import { common } from '../page_objects';
 
